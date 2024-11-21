@@ -2,25 +2,25 @@ import { PatientRepository } from "../../infrastructure/database/repositories/pa
 import { Patient } from "../../domain/entities/patient.entity";
 
 export class PatientService {
-    async create(patientData: Partial<Patient>): Promise<Patient> {
+    async createPatient(patientData: Partial<Patient>): Promise<Patient> {
         const patient = PatientRepository.create(patientData);
         return await PatientRepository.save(patient);
     }
 
-    async findAll(): Promise<Patient[]> {
+    async findAllPatients(): Promise<Patient[]> {
         return await PatientRepository.find();
     }
 
-    async fundById(patientId: string): Promise<Patient | null> {
+    async findPatientById(patientId: string): Promise<Patient | null> {
         return await PatientRepository.findOneBy({ id: patientId });
     }
 
-    async update(patientId: string, updates: Partial<Patient>): Promise<Patient | null> {
+    async updatePatient(patientId: string, updates: Partial<Patient>): Promise<Patient | null> {
         await PatientRepository.update(patientId, updates);
         return await PatientRepository.findOneBy({ id: patientId });
     }
 
-    async delete(patientId: string): Promise<void> {
+    async deletePatient(patientId: string): Promise<void> {
         await PatientRepository.delete(patientId);
     }
 }
