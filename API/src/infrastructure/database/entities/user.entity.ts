@@ -3,13 +3,13 @@ import { Entity, ObjectIdColumn, Column } from 'typeorm';
 @Entity()
 export class User {
     @ObjectIdColumn()
-    id: string;
+    id!: string;
 
     @Column()
-    username: string;
+    username!: string;
 
     @Column()
-    password: string;
+    password!: string;
 
     @Column({ default: true })
     isActive!: boolean;
