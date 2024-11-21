@@ -12,5 +12,5 @@ export class PatientSymptom {
     symptomId!: string;
 
     @Column()
-    assingedAt!: Date;
+    assignedAt!: Date;
 }
