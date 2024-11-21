@@ -12,8 +12,5 @@ export class PatientSymptom {
   symptomId!: string;
 
   @Column()
-  assignedBy!: string;
-
-  @Column()
   assignedAt!: Date;
 }
