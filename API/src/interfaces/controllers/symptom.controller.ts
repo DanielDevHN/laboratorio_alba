@@ -23,6 +23,15 @@ export const getSymptoms = async (req: Request, res: Response) => {
     }
 }
 
+export const updateSymptom = async (req: Request, res: Response) => {
+    try {
+        const symptom = await symptomUseCase.updateSymptom(req.params.id, req.body);
+        res.status(200).json(symptom);
+    } catch (error) {
+        res.status(400).json({ message: error instanceof Error ? error.message : "Unexpected error" });
+    }
+}
+
 export const deletedSymptom = async (req: Request, res: Response) => {
     try {
         await symptomUseCase.deleteSymptom(req.params.id);

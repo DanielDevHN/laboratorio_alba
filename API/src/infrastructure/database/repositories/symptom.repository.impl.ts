@@ -18,6 +18,11 @@ export class SymptomRepositoryImpl implements SymptomRepository {
         return await this.repository.findOneBy({ id: symptomId });
     }
 
+    async updateSymptom(symptomId: string, symptom: Partial<SymptomEntity>): Promise<SymptomEntity | null> {
+        await this.repository.update({ id: symptomId }, symptom);
+        return await this.repository.findOneBy({ id: symptomId });
+    }
+
     async deleteSymptom(symptomId: string): Promise<void> {
         await this.repository.delete({ id: symptomId });
     }

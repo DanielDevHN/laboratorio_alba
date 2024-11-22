@@ -13,4 +13,7 @@ export class Symptom {
 
   @CreateDateColumn()
   createdAt!: Date;
+
+  @UpdateDateColumn()
+  updatedAt!: Date;
 }

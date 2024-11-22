@@ -16,6 +16,10 @@ export class SymptomUseCase {
     return await this.symptomRepository.findSymptomById(symptomId);
   }
 
+  async updateSymptom(symptomId: string, symptomData: Partial<Symptom>): Promise<Symptom | null> {
+    return await this.symptomRepository.updateSymptom(symptomId, symptomData);
+  }
+
   async deleteSymptom(symptomId: string): Promise<void> {
     return await this.symptomRepository.deleteSymptom(symptomId);
   }
