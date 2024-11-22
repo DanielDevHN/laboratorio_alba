@@ -8,7 +8,7 @@ export class SymptomUseCase {
     return await this.symptomRepository.createSymptom(symptomData);
   }
 
-  async findAllPatients(): Promise<Symptom[]> {
+  async findAllSymptoms(): Promise<Symptom[]> {
     return await this.symptomRepository.findAllSymptoms();
   }
 
