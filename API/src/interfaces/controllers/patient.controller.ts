@@ -23,20 +23,22 @@ export const getPatients = async (req: Request, res: Response) => {
     }
 }
 
-export const getPatientById = async (req: Request, res: Response) => {
+export const getPatientById = async (req: Request, res: Response): Promise<void> => {
     try {
         const patient = await patientUseCase.findPatientById(req.params.id);
-        if(!patient) return res.status(404).json({ message: 'Patient not found' });
+        if(!patient) 
+            res.status(404).json({ message: 'Patient not found' });
         res.status(200).json(patient);
     } catch (error) {
         res.status(400).json({ message: error instanceof Error ? error.message : "Unexpected error" });
     }
 }
 
-export const updatePatient = async (req: Request, res: Response) => {
+export const updatePatient = async (req: Request, res: Response): Promise<void> => {
     try {
         const patient = await patientUseCase.updatePatient(req.params.id, req.body);
-        if(!patient) return res.status(404).json({ message: 'Patient not found' });
+        if(!patient) 
+            res.status(404).json({ message: 'Patient not found' });
         res.status(200).json(patient);
     } catch (error) {
         res.status(400).json({ message: error instanceof Error ? error.message : "Unexpected error" });
