@@ -1,11 +1,13 @@
 import { Request, Response, NextFunction } from "express";
-import jwt  from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
-export const authMiddleware = (req: Request, res: Response, next: NextFunction ) => {
+export const authenticateJWT = (req: Request, res: Response, next: NextFunction): void => {
     const authHeader = req.headers.authorization;
 
+    // Verifica si el encabezado de autorización está presente
     if (!authHeader) {
-        return res.status(401).send({ error: "No token provided" });
+        res.status(401).send({ error: "No token provided" });
+        return; 
     }
 
     const token = authHeader.split(" ")[1];
@@ -13,8 +15,9 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction )
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET!);
         (req as any).user = decoded;
-        next();
+        next(); 
     } catch (error) {
         res.status(401).send({ error: "Invalid or expired token" });
+        return; 
     }
-}
+};
