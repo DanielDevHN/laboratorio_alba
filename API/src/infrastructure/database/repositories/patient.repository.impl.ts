@@ -1,17 +1,17 @@
 import { Repository } from "typeorm";
-import { Patient } from "../entities/patient.entity";
+import { PatientEntity } from "../entities/patient.entity";
 import { AppDataSource } from "../../env/config";
 import { PatientRepository } from "../../../domain/repositories/patient.repository";
 
 
 export class PatientRepositoryImpl implements PatientRepository {
-    private repository: Repository<Patient> = AppDataSource.getRepository(Patient);
+    private repository: Repository<PatientEntity> = AppDataSource.getRepository(PatientEntity);
 
-    async createPatient(patient: Partial<Patient>): Promise<Patient> {
+    async createPatient(patient: Partial<PatientEntity>): Promise<PatientEntity> {
        return await this.repository.save(patient);
     }
 
-    async updatePatient(patientId: string, updates: Partial<Patient>): Promise<Patient | null> {
+    async updatePatient(patientId: string, updates: Partial<PatientEntity>): Promise<PatientEntity | null> {
         await this.repository.update(patientId, updates);
         return this.findPatientById(patientId);
     }
@@ -20,11 +20,11 @@ export class PatientRepositoryImpl implements PatientRepository {
         await this.repository.delete({ id: patientId });
     }
 
-    async findAllPatients(): Promise<Patient[]> {
+    async findAllPatients(): Promise<PatientEntity[]> {
         return await this.repository.find();
     }
 
-    async findPatientById(patientId: string): Promise<Patient | null> {
+    async findPatientById(patientId: string): Promise<PatientEntity | null> {
         return await this.repository.findOneBy({ id: patientId });
     }
 

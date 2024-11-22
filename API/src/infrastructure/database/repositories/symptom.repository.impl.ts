@@ -1,20 +1,20 @@
 import { Repository } from "typeorm";
-import { Symptom } from "../entities/symptom.entity";
+import { SymptomEntity } from "../entities/symptom.entity";
 import { AppDataSource } from "../../env/config";
 import { SymptomRepository } from "../../../domain/repositories/symptom.repository";
 
 export class SymptomRepositoryImpl implements SymptomRepository {
-    private repository: Repository<Symptom> = AppDataSource.getRepository(Symptom);
+    private repository: Repository<SymptomEntity> = AppDataSource.getRepository(SymptomEntity);
 
-    async createSymptom(symptom: Partial<Symptom>): Promise<Symptom> {
+    async createSymptom(symptom: Partial<SymptomEntity>): Promise<SymptomEntity> {
         return await this.repository.save(symptom);
     }
 
-    async findAllSymptoms(): Promise<Symptom[]> {
+    async findAllSymptoms(): Promise<SymptomEntity[]> {
         return await this.repository.find();
     }
 
-    async findSymptomById(symptomId: string): Promise<Symptom | null> {
+    async findSymptomById(symptomId: string): Promise<SymptomEntity | null> {
         return await this.repository.findOneBy({ id: symptomId });
     }
 

@@ -1,13 +1,13 @@
 import { Repository } from "typeorm";
-import { PatientSymptom } from "../entities/patient-symptom.entity";
+import { PatientSymptomEntity } from "../entities/patient-symptom.entity";
 import { AppDataSource } from "../../env/config";
 import { PatientSymptomRepository } from "../../../domain/repositories/patient-symptom.repository";
 
 
 export  class PatientSymptomRepositoryImpl implements PatientSymptomRepository {
-    private repository: Repository<PatientSymptom> = AppDataSource.getRepository(PatientSymptom);
+    private repository: Repository<PatientSymptomEntity> = AppDataSource.getRepository(PatientSymptomEntity);
 
-    async assignSymptomToPatient(patientId: string, symptomId: string): Promise<PatientSymptom> {
+    async assignSymptomToPatient(patientId: string, symptomId: string): Promise<PatientSymptomEntity> {
        const relation = this.repository.create({
             patientId,
             symptomId,
@@ -16,7 +16,7 @@ export  class PatientSymptomRepositoryImpl implements PatientSymptomRepository {
        return this.repository.save(relation);
     }
 
-    async findSymptomsByPatientId(patientId: string): Promise<PatientSymptom[]> {
+    async findSymptomsByPatientId(patientId: string): Promise<PatientSymptomEntity[]> {
         return await this.repository.findBy({patientId});
     }
     async removeSymptomFromPatient(patientId: string, symptomId: string): Promise<void> {
