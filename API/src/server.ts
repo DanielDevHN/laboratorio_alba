@@ -18,7 +18,7 @@ export const startServer = () => {
 
   // Routes
   app.use("/api", router);
-  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+  app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
   // Error handler
   app.use(errorMiddleware);
@@ -27,7 +27,7 @@ export const startServer = () => {
   const PORT = process.env.PORT || 3000;
   app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
-    console.log(`API documentation is running on http://localhost:${PORT}/api-docs`);
+    console.log(`API documentation is running on http://localhost:${PORT}/swagger`);
   });
 
   console.log("Server has been initialized.");
