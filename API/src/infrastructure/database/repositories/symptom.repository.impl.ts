@@ -10,7 +10,7 @@ export class SymptomRepositoryImpl implements SymptomRepository {
         return await this.repository.save(symptom);
     }
 
-    async findAllPatients(): Promise<Symptom[]> {
+    async findAllSymptoms(): Promise<Symptom[]> {
         return await this.repository.find();
     }
 
@@ -18,7 +18,7 @@ export class SymptomRepositoryImpl implements SymptomRepository {
         return await this.repository.findOneBy({ id: symptomId });
     }
 
-    async deletePatient(symptomId: string): Promise<void> {
+    async deleteSymptom(symptomId: string): Promise<void> {
         await this.repository.delete({ id: symptomId });
     }
 
