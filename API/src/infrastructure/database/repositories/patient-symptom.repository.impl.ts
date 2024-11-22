@@ -2,6 +2,7 @@ import { Repository } from "typeorm";
 import { PatientSymptomEntity } from "../entities/patient-symptom.entity";
 import { AppDataSource } from "../../env/config";
 import { PatientSymptomRepository } from "../../../domain/repositories/patient-symptom.repository";
+import { PatientSymptom } from "../../../domain/entities/patient-symptom.entity";
 
 
 export  class PatientSymptomRepositoryImpl implements PatientSymptomRepository {
@@ -19,6 +20,12 @@ export  class PatientSymptomRepositoryImpl implements PatientSymptomRepository {
     async findSymptomsByPatientId(patientId: string): Promise<PatientSymptomEntity[]> {
         return await this.repository.findBy({patientId});
     }
+
+    async updateSymptomFromPatient(patientId: string, symptomId: string, patientSymptom: PatientSymptom): Promise<void> {
+        await this.repository.update({ patientId, symptomId }, patientSymptom);
+        return;
+    }
+
     async removeSymptomFromPatient(patientId: string, symptomId: string): Promise<void> {
         await this.repository.delete({patientId, symptomId});
     }

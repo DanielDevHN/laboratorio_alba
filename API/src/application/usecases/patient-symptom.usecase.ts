@@ -12,6 +12,12 @@ export class PatientSymptomUseCase {
     return await this.patientSymptomRepository.findSymptomsByPatientId(patientId);
   }
 
+  async updateSymptomFromPatient(patientId: string, symptoms: PatientSymptom[]): Promise<void> {
+    for (const symptom of symptoms) {
+      await this.patientSymptomRepository.updateSymptomFromPatient(patientId, symptom.symptomId, symptom);
+    }
+  }
+
   async removeSymptomFromPatient(patientId: string, symptomId: string): Promise<void> {
     await this.patientSymptomRepository.removeSymptomFromPatient(patientId, symptomId);
   }

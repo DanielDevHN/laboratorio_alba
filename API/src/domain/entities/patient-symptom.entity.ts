@@ -13,4 +13,7 @@ export class PatientSymptom {
 
   @CreateDateColumn()
   assignedAt!: Date;
+
+  @UpdateDateColumn()
+  updatedAt!: Date;
 }
