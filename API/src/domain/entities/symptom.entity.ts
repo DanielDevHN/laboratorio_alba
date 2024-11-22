@@ -1,4 +1,4 @@
-import { Entity, ObjectIdColumn, Column } from "typeorm";
+import { Entity, ObjectIdColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class Symptom {
@@ -10,4 +10,7 @@ export class Symptom {
 
   @Column()
   description!: string;
+
+  @CreateDateColumn()
+  createdAt!: Date;
 }
