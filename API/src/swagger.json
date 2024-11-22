@@ -238,6 +238,33 @@
       }
     },
     "/symptoms/{id}": {
+      "patch": {
+        "tags": ["Symptom"],
+        "summary": "Actualizar un síntoma",
+        "description": "Actualiza los datos de un síntoma. Requiere autenticación.",
+        "security": [
+          { "BearerAuth": [] }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "description": "ID del síntoma."
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/SymptomRequest" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Síntoma actualizado exitosamente." },
+          "404": { "description": "Síntoma no encontrado." }
+        }
+      },
       "delete": {
         "tags": ["Symptom"],
         "summary": "Eliminar un síntoma",
@@ -315,6 +342,33 @@
         ],
         "responses": {
           "201": { "description": "Relación creada exitosamente." }
+        }
+      },
+      "patch":{
+        "tags": ["Patient-Symptom"],
+        "summary": "Actualizar la relación entre un paciente y un síntoma",
+        "description": "Actualiza la relación entre un paciente y un síntoma. Requiere autenticación.",
+        "security": [
+          { "BearerAuth": [] }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "patientId",
+            "required": true,
+            "type": "string",
+            "description": "ID del paciente."
+          },
+          {
+            "in": "path",
+            "name": "symptomId",
+            "required": true,
+            "type": "string",
+            "description": "ID del síntoma."
+          }
+        ],
+        "responses": {
+          "200": { "description": "Relación actualizada exitosamente." }
         }
       },
       "delete": {
