@@ -71,6 +71,9 @@ router.post("/symptoms", authenticateJWT, validateCreateSymptom, createSymptom);
 //Get all symptoms
 router.get("/symptoms", authenticateJWT, getSymptoms);
 
+//Update a symptom
+router.patch("/symptoms/:id", authenticateJWT, validateCreateSymptom, createSymptom);
+
 //Delete a symptom
 router.delete("/symptoms/:id", authenticateJWT, deletedSymptom);
 //#endregion
@@ -89,6 +92,14 @@ router.get(
   "/patients/:patientId/symptoms",
   authenticateJWT,
   findSymptomsByPatientId
+);
+
+//Update a symptom from a patient
+router.patch(
+  "/patients/:patientId/symptoms/:symptomId",
+  authenticateJWT,
+  validateAssignSymptomToPatient,
+  assignSymptom
 );
 
 //Remove a symptom from a patient
