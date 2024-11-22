@@ -1,6 +1,6 @@
 import { Entity, ObjectIdColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
-@Entity()
+@Entity("symptoms")
 export class Symptom {
   @ObjectIdColumn()
   id!: string;
