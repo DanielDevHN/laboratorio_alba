@@ -1,7 +1,7 @@
-import { Entity, ObjectIdColumn, Column } from "typeorm";
+import { Entity, ObjectIdColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
-@Entity()
-export class Patient {
+@Entity("patients")
+export class PatientEntity {
     @ObjectIdColumn()
     id!: string;
 
@@ -17,10 +17,15 @@ export class Patient {
     @Column()
     address!: string;
 
-    @Column
+    @Column()
     phones!: string[];
 
     @Column()
     emails!: string[];
 
+    @CreateDateColumn()
+    createdAt!: Date;
+
+    @UpdateDateColumn()
+    updatedAt!: Date;
 }
