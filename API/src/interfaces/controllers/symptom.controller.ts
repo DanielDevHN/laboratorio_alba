@@ -1,19 +1,33 @@
 import { Request, Response } from "express";
-import { SymptomService } from "../../application/services/symptom.service";
+import { SymptomUseCase } from "../../application/usecases/symptom.usecase";
+import { SymptomRepositoryImpl } from "../../infrastructure/database/repositories/symptom.repository.impl";
 
-const symptomService = new SymptomService();
+const symptomRepository = new SymptomRepositoryImpl();
+const symptomUseCase = new SymptomUseCase(symptomRepository);
 
 export const createSymptom = async (req: Request, res: Response) => {
-    const symptom = await symptomService.createSymptom(req.body);
-    res.status(201).json(symptom);
+    try {
+        const symptom = await symptomUseCase.createSymptom(req.body);
+        res.status(201).json(symptom);
+    } catch (error) {
+        res.status(400).json({ message: error instanceof Error ? error.message : "Unexpected error" });
+    }
 }
 
 export const getSymptoms = async (req: Request, res: Response) => {
-    const symptoms = await symptomService.findAllSymptoms();
-    res.status(200).json(symptoms);
+    try {
+        const symptoms = await symptomUseCase.findAllSymptoms();
+        res.status(200).json(symptoms);
+    } catch (error) {
+        res.status(400).json({ message: error instanceof Error ? error.message : "Unexpected error" });
+    }
 }
 
 export const deletedSymptom = async (req: Request, res: Response) => {
-    await symptomService.deleteSymptom(req.params.id);
-    res.status(200).json({ message: 'Symptom deleted successfully' });
+    try {
+        await symptomUseCase.deleteSymptom(req.params.id);
+        res.status(200).json({ message: 'Symptom deleted successfully' });
+    } catch (error) {
+        res.status(400).json({ message: error instanceof Error ? error.message : "Unexpected error" });
+    }
 }
