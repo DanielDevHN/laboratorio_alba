@@ -4,20 +4,21 @@ import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { getVehicles } from '@/services/vehicleService';
-import { getEntriesExits } from '@/services/entryExitService';
+import { getPatients } from '@/services/patientService';
+import { getSymptoms } from '@/services/symptomService';
 import { LayoutContext } from '../../../layout/context/layoutcontext';
 import Link from 'next/link';
 
 const DashboardContent = () => {
-    const [vehicles, setVehicles] = useState<any[]>([]);
-    const [entriesExits, setEntriesExits] = useState<any[]>([]);
+    const [patients, setPatients] = useState<any[]>([]);
+    const [symptoms, setSymptoms] = useState<any[]>([]);
     const [dateTime, setDateTime] = useState<Date | null>(null);
     const { layoutConfig } = useContext(LayoutContext);
 
     useEffect(() => {
-        getVehicles().then((data) => setVehicles(data));
-        getEntriesExits().then((data) => setEntriesExits(data));
+        // Obtener datos de pacientes y síntomas
+        getPatients().then((data) => setPatients(data));
+        getSymptoms().then((data) => setSymptoms(data));
     }, []);
 
     useEffect(() => {
@@ -32,24 +33,22 @@ const DashboardContent = () => {
             <div className="col-12">
                 <div className="card">
                     <h5>Bienvenido (a)</h5>
-                    <p>
                     <p>{dateTime && dateTime.toLocaleDateString()} {dateTime && dateTime.toLocaleTimeString()}</p>
-                    </p>
                 </div>
             </div>
 
             <div className="col-12 xl:col-6">
                 <div className="card">
-                    <h5>Lista de Vehículos Recientes</h5>
-                    <DataTable value={vehicles} rows={5} paginator responsiveLayout="scroll">
-                        <Column field="marca" header="Marca" sortable style={{ width: '35%' }} />
-                        <Column field="modelo" header="Modelo" sortable style={{ width: '35%' }} />
-                        <Column field="placa" header="Placa" sortable style={{ width: '20%' }} />
+                    <h5>Lista de Pacientes Recientes</h5>
+                    <DataTable value={patients} rows={5} paginator responsiveLayout="scroll">
+                        <Column field="firstName" header="Nombre" sortable style={{ width: '35%' }} />
+                        <Column field="lastName" header="Apellido" sortable style={{ width: '35%' }} />
+                        <Column field="birthDate" header="Fecha de Nacimiento" sortable style={{ width: '20%' }} />
                         <Column
                             header="Ver"
                             style={{ width: '10%' }}
                             body={() => (
-                                <Link href="/pages/list-vehicles">
+                                <Link href="/pages/list-patients">
                                     <Button icon="pi pi-search" text />
                                 </Link>
                             )}
@@ -60,16 +59,15 @@ const DashboardContent = () => {
 
             <div className="col-12 xl:col-6">
                 <div className="card">
-                    <h5>Lista de Entradas y Salidas Recientes</h5>
-                    <DataTable value={entriesExits} rows={5} paginator responsiveLayout="scroll">
-                        <Column field="tipo" header="Tipo" />
-                        <Column field="fecha" header="Fecha" />
-                        <Column field="vehicleId" header="Vehículo" />
+                    <h5>Lista de Síntomas Recientes</h5>
+                    <DataTable value={symptoms} rows={5} paginator responsiveLayout="scroll">
+                        <Column field="name" header="Nombre" sortable style={{ width: '40%' }} />
+                        <Column field="description" header="Descripción" sortable style={{ width: '50%' }} />
                         <Column
                             header="Ver"
                             style={{ width: '10%' }}
                             body={() => (
-                                <Link href="/pages/list-entries-exits">
+                                <Link href="/pages/list-symptoms">
                                     <Button icon="pi pi-search" text />
                                 </Link>
                             )}
