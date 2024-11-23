@@ -9,13 +9,13 @@ const HomePage = () => {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (!token) {
-            router.push('/login'); // Redirige al login
+            router.push('/login');
         } else {
-            router.push('/dashboard'); // Redirige al dashboard si hay un token válido
+            router.push('/dashboard');
         }
     }, [router]);
 
-    return null; // Evita renderizar contenido mientras redirige
+    return null;
 };
 
 export default HomePage;
