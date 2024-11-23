@@ -3,6 +3,7 @@ import { SymptomEntity } from "../entities/symptom.entity";
 import { AppDataSource } from "../../env/config";
 import { SymptomRepository } from "../../../domain/repositories/symptom.repository";
 
+
 export class SymptomRepositoryImpl implements SymptomRepository {
     private repository: Repository<SymptomEntity> = AppDataSource.getRepository(SymptomEntity);
 

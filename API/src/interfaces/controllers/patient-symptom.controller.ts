@@ -21,20 +21,26 @@ export const findSymptomsByPatientId = async (req: Request, res: Response) => {
         const symptoms = await patientSymptomUseCase.findSymptomsByPatientId(patientId);
         res.status(200).json(symptoms);
     } catch (error) {
-        res.status(400).json({ message: error instanceof Error ? error.message : "Unexpected error" });
+        console.error(error);
+        if (error instanceof Error) {
+            res.status(400).json({ message: error.message || 'Error inesperado.' });
+        } else {
+            res.status(400).json({ message: 'Error inesperado.' });
+        }
     }
-}
+};
 
-export const updateSymptomFromPatient = async (req: Request, res: Response) => {
-    try {
-        const { patientId } = req.params;
-        const symptoms = req.body;
-        await patientSymptomUseCase.updateSymptomFromPatient(patientId, symptoms);
-        res.status(204).json({ message: 'Symptoms updated' });
-    } catch (error) {
-        res.status(400).json({ message: error instanceof Error ? error.message : "Unexpected error" });
-    }
-}
+
+// export const updateSymptomFromPatient = async (req: Request, res: Response) => {
+//     try {
+//         const { patientId } = req.params;
+//         const symptoms = req.body;
+//         await patientSymptomUseCase.updateSymptomFromPatient(patientId, symptoms);
+//         res.status(204).json({ message: 'Symptoms updated' });
+//     } catch (error) {
+//         res.status(400).json({ message: error instanceof Error ? error.message : "Unexpected error" });
+//     }
+// }
 
 export const removeSymptomFromPatient = async (req: Request, res: Response) => {
     try {

@@ -1,32 +1,54 @@
-import { Repository } from "typeorm";
+import { MongoRepository } from "typeorm";
 import { PatientSymptomEntity } from "../entities/patient-symptom.entity";
 import { AppDataSource } from "../../env/config";
 import { PatientSymptomRepository } from "../../../domain/repositories/patient-symptom.repository";
 import { PatientSymptom } from "../../../domain/entities/patient-symptom.entity";
 
+export class PatientSymptomRepositoryImpl implements PatientSymptomRepository {
+    private repository: MongoRepository<PatientSymptomEntity> = AppDataSource.getMongoRepository(PatientSymptomEntity);
 
-export  class PatientSymptomRepositoryImpl implements PatientSymptomRepository {
-    private repository: Repository<PatientSymptomEntity> = AppDataSource.getRepository(PatientSymptomEntity);
-
-    async assignSymptomToPatient(patientId: string, symptomId: string): Promise<PatientSymptomEntity> {
-       const relation = this.repository.create({
+    async assignSymptomToPatient(patientId: string, symptomId: string): Promise<PatientSymptom> {
+        const relation = this.repository.create({
             patientId,
             symptomId,
             assignedAt: new Date()
-       });
-       return this.repository.save(relation);
+        });
+        const savedEntity = await this.repository.save(relation);
+        return {
+            id: savedEntity.id.toString(),
+            patientId: savedEntity.patientId,
+            symptomId: savedEntity.symptomId,
+            assignedAt: savedEntity.assignedAt,
+            updatedAt: savedEntity.updatedAt
+        };
     }
 
-    async findSymptomsByPatientId(patientId: string): Promise<PatientSymptomEntity[]> {
-        return await this.repository.findBy({patientId});
+    async findSymptomsByPatientId(patientId: string): Promise<PatientSymptom[]> {
+        const entities = await this.repository.find({
+            where: { patientId }
+        });
+        return entities.map(entity => ({
+            id: entity.id.toString(),
+            patientId: entity.patientId,
+            symptomId: entity.symptomId,
+            assignedAt: entity.assignedAt,
+            updatedAt: entity.updatedAt
+        }));
     }
 
-    async updateSymptomFromPatient(patientId: string, symptomId: string, patientSymptom: PatientSymptom): Promise<void> {
-        await this.repository.update({ patientId, symptomId }, patientSymptom);
-        return;
-    }
+    // async updateSymptomFromPatient(patientId: string, symptomId: string, patientSymptom: PatientSymptom): Promise<void> {
+    //     const partialEntity: Partial<PatientSymptomEntity> = {
+    //         patientId: patientSymptom.patientId,
+    //         symptomId: patientSymptom.symptomId,
+    //         assignedAt: patientSymptom.assignedAt
+    //     };
+    //     await this.repository.updateOne(
+    //         { patientId, symptomId },
+    //         { $set: partialEntity }
+    //     );
+    // }
 
     async removeSymptomFromPatient(patientId: string, symptomId: string): Promise<void> {
-        await this.repository.delete({patientId, symptomId});
+        await this.repository.deleteOne({ patientId, symptomId });
     }
 }
