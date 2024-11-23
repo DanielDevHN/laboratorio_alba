@@ -13,7 +13,7 @@ import { usePatient } from '@/hooks/usePatient';
 import { useSymptom } from '@/hooks/useSymptom';
 
 const PatientSymptom = () => {
-    const { relations, loading, addPatientSymptom, removePatientSymptom } = usePatientSymptom();
+    const { relations, loading, loadPatientSymptoms, addPatientSymptom, removePatientSymptom } = usePatientSymptom();
     const { patients } = usePatient();
     const { symptoms } = useSymptom();
 
@@ -27,9 +27,25 @@ const PatientSymptom = () => {
     const toast = useRef<Toast>(null);
     const dt = useRef<DataTable<any>>(null);
 
+    // Cargar las relaciones al inicializar el componente
     useEffect(() => {
-        console.log('Relations:', relations); // Depurar los datos recibidos
-    }, [relations]);
+        if (patients.length > 0) {
+            loadPatientSymptoms(patients[0].id); // Cambia esto para seleccionar un paciente específico si es necesario
+        }
+    }, [patients]);
+
+    // Formatear relaciones con datos de paciente y síntoma
+    const formattedRelations = relations.map((relation) => {
+        const patient = patients.find((p) => p.id === relation.patientId);
+        const symptom = symptoms.find((s) => s.id === relation.symptomId);
+
+        return {
+            ...relation,
+            patientFirstName: patient?.firstName || 'Desconocido',
+            patientLastName: patient?.lastName || 'Desconocido',
+            symptomName: symptom?.name || 'Desconocido',
+        };
+    });
 
     const openNewRelation = () => {
         setSelectedPatient(null);
@@ -76,22 +92,6 @@ const PatientSymptom = () => {
         </div>
     );
 
-    const formatRelationData = (rowData: any) => {
-        const patient = patients.find((p) => p.id === rowData.patientId);
-        const symptom = symptoms.find((s) => s.id === rowData.symptomId);
-
-        if (!patient || !symptom) {
-            console.warn('Paciente o síntoma no encontrado para la relación:', rowData);
-        }
-
-        return {
-            ...rowData,
-            patientFirstName: patient?.firstName || 'Desconocido',
-            patientLastName: patient?.lastName || 'Desconocido',
-            symptomName: symptom?.name || 'Desconocido',
-        };
-    };
-
     return (
         <div className="datatable-crud">
             <Toast ref={toast} />
@@ -105,7 +105,7 @@ const PatientSymptom = () => {
 
                 <DataTable
                     ref={dt}
-                    value={relations} // Formatea las relaciones antes de mostrarlas
+                    value={formattedRelations} // Usar relaciones formateadas
                     dataKey="id"
                     paginator
                     rows={10}
@@ -115,9 +115,9 @@ const PatientSymptom = () => {
                     header={header}
                     responsiveLayout="scroll"
                 >
-                    <Column field="patient.firstName" header="Nombre del Paciente" />
-                    <Column field="patient.lastName" header="Apellido del Paciente" />
-                    <Column field="symptom.name" header="Nombre del Síntoma" />
+                    <Column field="patientFirstName" header="Nombre del Paciente" />
+                    <Column field="patientLastName" header="Apellido del Paciente" />
+                    <Column field="symptomName" header="Nombre del Síntoma" />
                     <Column field="assignedAt" header="Creado" />
                     <Column field="updatedAt" header="Actualizado" />
                     <Column
