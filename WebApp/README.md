@@ -55,10 +55,10 @@ npm install
 
 ### Paso 3: Configurar Variables de Entorno
 
-Crea un archivo .env en la raíz del proyecto y define la cadena de conexión para la base de datos PostgreSQL. Aquí tienes un ejemplo:
+Crea un archivo .env en la raíz del proyecto y define la cadena de conexión para la API. Aquí tienes un ejemplo:
 
 ```
-NEXT_PUBLIC_API_URL='http://localhost:3001'
+NEXT_PUBLIC_API_URL='http://localhost:3001/api'
 ```
 Nota:: En el repositorio encontraras un archivo .env.example el cual puedes usar para crear tu .env
 
