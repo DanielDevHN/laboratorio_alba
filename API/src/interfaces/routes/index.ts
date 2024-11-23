@@ -15,6 +15,7 @@ import {
   createSymptom,
   deletedSymptom,
   getSymptoms,
+  updateSymptom,
 } from "../controllers/symptom.controller";
 import {
   assignSymptom,
@@ -39,50 +40,48 @@ router.post("/users", validateCreateUser, createUser);
 router.post("/login", validateCreateUser, login);
 
 //Deactivate user
-router.delete("/users/:id/deactivate", authenticateJWT, deactivateUser);
+router.delete("/users/:id/deactivate", deactivateUser);
 //#endregion
 
 //#region Patient routes
 // Create a new patient
-router.post("/patients", authenticateJWT, createPatient);
+router.post("/patients", createPatient);
 
 //Get a patient by id
-router.get("/patients/:id", authenticateJWT, getPatientById);
+router.get("/patients/:id", getPatientById);
 
 //Get all patients
-router.get("/patients", authenticateJWT, getPatients);
+router.get("/patients", getPatients);
 
 //Update a patient
 router.patch(
   "/patients/:id",
-  authenticateJWT,
   validateCreatePatient,
   updatePatient
 );
 
 //Delete a patient
-router.delete("/patients/:id", authenticateJWT, deletePatient);
+router.delete("/patients/:id", deletePatient);
 //#endregion
 
 //#region Symptom routes
 // Create a new symptom
-router.post("/symptoms", authenticateJWT, validateCreateSymptom, createSymptom);
+router.post("/symptoms", validateCreateSymptom, createSymptom);
 
 //Get all symptoms
-router.get("/symptoms", authenticateJWT, getSymptoms);
+router.get("/symptoms", getSymptoms);
 
 //Update a symptom
-router.patch("/symptoms/:id", authenticateJWT, validateCreateSymptom, createSymptom);
+router.patch("/symptoms/:id", validateCreateSymptom, updateSymptom);
 
 //Delete a symptom
-router.delete("/symptoms/:id", authenticateJWT, deletedSymptom);
+router.delete("/symptoms/:id", deletedSymptom);
 //#endregion
 
 //#region PatientSymptom routes
 //Assign a symptom to a patient
 router.post(
   "/patients/:patientId/symptoms/:symptomId",
-  authenticateJWT,
   validateAssignSymptomToPatient,
   assignSymptom
 );
@@ -90,22 +89,19 @@ router.post(
 //Get all symptoms of a patient
 router.get(
   "/patients/:patientId/symptoms",
-  authenticateJWT,
   findSymptomsByPatientId
 );
 
-//Update a symptom from a patient
-router.patch(
-  "/patients/:patientId/symptoms/:symptomId",
-  authenticateJWT,
-  validateAssignSymptomToPatient,
-  assignSymptom
-);
+// //Update a symptom from a patient
+// router.patch(
+//   "/patients/:patientId/symptoms/:symptomId",
+//   validateAssignSymptomToPatient,
+//   updateSymptomFromPatient
+// );
 
 //Remove a symptom from a patient
 router.delete(
   "/patients/:patientId/symptoms/:symptomId",
-  authenticateJWT,
   validateAssignSymptomToPatient,
   removeSymptomFromPatient
 );
