@@ -44,6 +44,7 @@ export interface LayoutContextProps {
     setLayoutState: Dispatch<SetStateAction<LayoutState>>;
     onMenuToggle: () => void;
     toggleTheme: () => void;
+    logout: () => void;
 }
 
 export interface MenuContextProps {
