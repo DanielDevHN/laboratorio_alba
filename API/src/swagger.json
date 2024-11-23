@@ -1,0 +1,385 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Patient Management API",
+    "version": "1.0.0",
+    "description": "API para gestionar usuarios, pacientes, síntomas y relaciones entre ellos."
+  },
+  "host": "localhost:3000",
+  "basePath": "/api",
+  "schemes": ["http"],
+  "tags": [
+    { "name": "User", "description": "Operaciones relacionadas con usuarios" },
+    { "name": "Patient", "description": "Operaciones relacionadas con pacientes" },
+    { "name": "Symptom", "description": "Operaciones relacionadas con síntomas" },
+    { "name": "Patient-Symptom", "description": "Relaciones entre pacientes y síntomas" }
+  ],
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Crear un usuario",
+        "description": "Crea un nuevo usuario con un nombre de usuario y contraseña.",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/UserRequest" }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Usuario creado exitosamente." },
+          "400": { "description": "Datos de entrada inválidos." }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Login de usuario",
+        "description": "Autentica un usuario y devuelve un token JWT.",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/UserRequest" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Usuario autenticado.", "schema": { "$ref": "#/definitions/AuthResponse" } },
+          "401": { "description": "Credenciales inválidas." }
+        }
+      }
+    },
+    "/users/{id}/deactivate": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "Desactivar un usuario",
+        "description": "Desactiva un usuario por ID.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "description": "ID del usuario a desactivar."
+          }
+        ],
+        "responses": {
+          "200": { "description": "Usuario desactivado exitosamente." },
+          "401": { "description": "No autenticado." },
+          "404": { "description": "Usuario no encontrado." }
+        }
+      }
+    },
+    "/patients": {
+      "post": {
+        "tags": ["Patient"],
+        "summary": "Crear un paciente",
+        "description": "Crea un nuevo paciente.",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/PatientRequest" }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Paciente creado exitosamente." },
+          "400": { "description": "Datos de entrada inválidos." }
+        }
+      },
+      "get": {
+        "tags": ["Patient"],
+        "summary": "Obtener todos los pacientes",
+        "description": "Devuelve una lista de todos los pacientes.",
+        "responses": {
+          "200": {
+            "description": "Lista de pacientes.",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/PatientResponse" }
+            }
+          }
+        }
+      }
+    },
+    "/patients/{id}": {
+      "get": {
+        "tags": ["Patient"],
+        "summary": "Obtener un paciente por ID",
+        "description": "Devuelve un paciente específico por ID.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "description": "ID del paciente."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalles del paciente.",
+            "schema": { "$ref": "#/definitions/PatientResponse" }
+          },
+          "404": { "description": "Paciente no encontrado." }
+        }
+      },
+      "patch": {
+        "tags": ["Patient"],
+        "summary": "Actualizar un paciente",
+        "description": "Actualiza los datos de un paciente.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "description": "ID del paciente."
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/PatientRequest" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Paciente actualizado exitosamente." },
+          "404": { "description": "Paciente no encontrado." }
+        }
+      },
+      "delete": {
+        "tags": ["Patient"],
+        "summary": "Eliminar un paciente",
+        "description": "Elimina un paciente por ID.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "description": "ID del paciente."
+          }
+        ],
+        "responses": {
+          "200": { "description": "Paciente eliminado exitosamente." },
+          "404": { "description": "Paciente no encontrado." }
+        }
+      }
+    },
+    "/symptoms": {
+      "post": {
+        "tags": ["Symptom"],
+        "summary": "Crear un síntoma",
+        "description": "Crea un nuevo síntoma.",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/SymptomRequest" }
+          }
+        ],
+        "responses": {
+          "201": { "description": "Síntoma creado exitosamente." },
+          "400": { "description": "Datos de entrada inválidos." }
+        }
+      },
+      "get": {
+        "tags": ["Symptom"],
+        "summary": "Obtener todos los síntomas",
+        "description": "Devuelve una lista de todos los síntomas.",
+        "responses": {
+          "200": {
+            "description": "Lista de síntomas.",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/SymptomResponse" }
+            }
+          }
+        }
+      }
+    },
+    "/symptoms/{id}": {
+      "patch": {
+        "tags": ["Symptom"],
+        "summary": "Actualizar un síntoma",
+        "description": "Actualiza los datos de un síntoma.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "description": "ID del síntoma."
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/SymptomRequest" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Síntoma actualizado exitosamente." },
+          "404": { "description": "Síntoma no encontrado." }
+        }
+      },
+      "delete": {
+        "tags": ["Symptom"],
+        "summary": "Eliminar un síntoma",
+        "description": "Elimina un síntoma por ID.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "description": "ID del síntoma."
+          }
+        ],
+        "responses": {
+          "200": { "description": "Síntoma eliminado exitosamente." },
+          "404": { "description": "Síntoma no encontrado." }
+        }
+      }
+    },
+    "/patients/{patientId}/symptoms": {
+      "get": {
+        "tags": ["Patient-Symptom"],
+        "summary": "Obtener síntomas relacionados con un paciente",
+        "description": "Obtiene todos los síntomas asignados a un paciente.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "patientId",
+            "required": true,
+            "type": "string",
+            "description": "ID del paciente."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de síntomas asignados.",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/SymptomResponse" }
+            }
+          },
+          "404": { "description": "Paciente no encontrado." }
+        }
+      }
+    },
+    "/patients/{patientId}/symptoms/{symptomId}": {
+      "post": {
+        "tags": ["Patient-Symptom"],
+        "summary": "Asignar un síntoma a un paciente",
+        "description": "Crea una relación entre un paciente y un síntoma.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "patientId",
+            "required": true,
+            "type": "string",
+            "description": "ID del paciente."
+          },
+          {
+            "in": "path",
+            "name": "symptomId",
+            "required": true,
+            "type": "string",
+            "description": "ID del síntoma."
+          }
+        ],
+        "responses": {
+          "201": { "description": "Relación creada exitosamente." }
+        }
+      },
+      "delete": {
+        "tags": ["Patient-Symptom"],
+        "summary": "Eliminar la relación entre un paciente y un síntoma",
+        "description": "Elimina la relación entre un paciente y un síntoma.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "patientId",
+            "required": true,
+            "type": "string",
+            "description": "ID del paciente."
+          },
+          {
+            "in": "path",
+            "name": "symptomId",
+            "required": true,
+            "type": "string",
+            "description": "ID del síntoma."
+          }
+        ],
+        "responses": {
+          "200": { "description": "Relación eliminada exitosamente." }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "UserRequest": {
+      "type": "object",
+      "properties": {
+        "username": { "type": "string" },
+        "password": { "type": "string" }
+      },
+      "required": ["username", "password"]
+    },
+    "AuthResponse": {
+      "type": "object",
+      "properties": {
+        "token": { "type": "string" }
+      }
+    },
+    "PatientRequest": {
+      "type": "object",
+      "properties": {
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "birthDate": { "type": "string", "format": "date" },
+        "address": { "type": "string" },
+        "phones": { "type": "array", "items": { "type": "string" } },
+        "emails": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["firstName", "lastName", "birthDate", "address", "phones", "emails"]
+    },
+    "PatientResponse": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "birthDate": { "type": "string", "format": "date" },
+        "address": { "type": "string" },
+        "phones": { "type": "array", "items": { "type": "string" } },
+        "emails": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "SymptomRequest": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "description": { "type": "string" }
+      },
+      "required": ["name", "description"]
+    },
+    "SymptomResponse": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" }
+      }
+    }
+  }
+}
