@@ -18,8 +18,8 @@ const AppMenu = () => {
         {
             label: 'Pacientes',
             items: [
-                { label: 'Registrar Pacientes', icon: 'pi pi-fw pi-human', to: '/pages/vehicles' },
-                { label: 'Ver Lista de Pacientes', icon: 'pi pi-fw pi-check-square', to: '/pages/list-vehicles' }
+                { label: 'Registrar Pacientes', icon: 'pi pi-fw pi-user', to: '/pages/patients' },
+                { label: 'Ver Lista de Pacientes', icon: 'pi pi-fw pi-check-square', to: '/pages/list-patients' }
             ]
         },
         {
@@ -30,12 +30,12 @@ const AppMenu = () => {
                 {
                     label: 'Registrar Sintomas',
                     icon: 'pi pi-fw pi-ticket',
-                    to: '/pages/entries-exits'
+                    to: '/pages/symptoms'
                 },
                 {
-                    label: 'Filtros Sintomas por Paciente',
-                    icon: 'pi pi-fw pi-filter',
-                    to: '/pages/list-entries-exits'
+                    label: 'Lista de Sintomas',
+                    icon: 'pi pi-fw pi-check-square',
+                    to: '/pages/list-symptoms'
                 }
             ]
         },
@@ -47,13 +47,13 @@ const AppMenu = () => {
                 {
                     label: 'Registrar Sintomas a Paciente',
                     icon: 'pi pi-fw pi-ticket',
-                    to: '/pages/entries-exits'
+                    to: '/pages/patient-symptom'
                 },
-                {
-                    label: 'Filtros Sintomas por Paciente',
-                    icon: 'pi pi-fw pi-filter',
-                    to: '/pages/list-entries-exits'
-                }
+                // {
+                //     label: 'Filtros Sintomas por Paciente',
+                //     icon: 'pi pi-fw pi-filter',
+                //     to: '/pages/list-patient-symptoms'
+                // }
             ]
         }
     ];
