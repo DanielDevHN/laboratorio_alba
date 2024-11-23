@@ -14,14 +14,6 @@
     { "name": "Symptom", "description": "Operaciones relacionadas con síntomas" },
     { "name": "Patient-Symptom", "description": "Relaciones entre pacientes y síntomas" }
   ],
-  "securityDefinitions": {
-    "BearerAuth": {
-      "type": "apiKey",
-      "name": "Authorization",
-      "in": "header",
-      "description": "Ingrese el token de autenticación en el formato: Bearer <token>"
-    }
-  },
   "paths": {
     "/users": {
       "post": {
@@ -65,10 +57,7 @@
       "patch": {
         "tags": ["User"],
         "summary": "Desactivar un usuario",
-        "description": "Desactiva un usuario por ID. Requiere autenticación.",
-        "security": [
-          { "BearerAuth": [] }
-        ],
+        "description": "Desactiva un usuario por ID.",
         "parameters": [
           {
             "in": "path",
@@ -89,10 +78,7 @@
       "post": {
         "tags": ["Patient"],
         "summary": "Crear un paciente",
-        "description": "Crea un nuevo paciente. Requiere autenticación.",
-        "security": [
-          { "BearerAuth": [] }
-        ],
+        "description": "Crea un nuevo paciente.",
         "parameters": [
           {
             "in": "body",
@@ -109,10 +95,7 @@
       "get": {
         "tags": ["Patient"],
         "summary": "Obtener todos los pacientes",
-        "description": "Devuelve una lista de todos los pacientes. Requiere autenticación.",
-        "security": [
-          { "BearerAuth": [] }
-        ],
+        "description": "Devuelve una lista de todos los pacientes.",
         "responses": {
           "200": {
             "description": "Lista de pacientes.",
@@ -128,10 +111,7 @@
       "get": {
         "tags": ["Patient"],
         "summary": "Obtener un paciente por ID",
-        "description": "Devuelve un paciente específico por ID. Requiere autenticación.",
-        "security": [
-          { "BearerAuth": [] }
-        ],
+        "description": "Devuelve un paciente específico por ID.",
         "parameters": [
           {
             "in": "path",
@@ -152,10 +132,7 @@
       "patch": {
         "tags": ["Patient"],
         "summary": "Actualizar un paciente",
-        "description": "Actualiza los datos de un paciente. Requiere autenticación.",
-        "security": [
-          { "BearerAuth": [] }
-        ],
+        "description": "Actualiza los datos de un paciente.",
         "parameters": [
           {
             "in": "path",
@@ -179,10 +156,7 @@
       "delete": {
         "tags": ["Patient"],
         "summary": "Eliminar un paciente",
-        "description": "Elimina un paciente por ID. Requiere autenticación.",
-        "security": [
-          { "BearerAuth": [] }
-        ],
+        "description": "Elimina un paciente por ID.",
         "parameters": [
           {
             "in": "path",
@@ -202,10 +176,7 @@
       "post": {
         "tags": ["Symptom"],
         "summary": "Crear un síntoma",
-        "description": "Crea un nuevo síntoma. Requiere autenticación.",
-        "security": [
-          { "BearerAuth": [] }
-        ],
+        "description": "Crea un nuevo síntoma.",
         "parameters": [
           {
             "in": "body",
@@ -222,10 +193,7 @@
       "get": {
         "tags": ["Symptom"],
         "summary": "Obtener todos los síntomas",
-        "description": "Devuelve una lista de todos los síntomas. Requiere autenticación.",
-        "security": [
-          { "BearerAuth": [] }
-        ],
+        "description": "Devuelve una lista de todos los síntomas.",
         "responses": {
           "200": {
             "description": "Lista de síntomas.",
@@ -241,10 +209,7 @@
       "patch": {
         "tags": ["Symptom"],
         "summary": "Actualizar un síntoma",
-        "description": "Actualiza los datos de un síntoma. Requiere autenticación.",
-        "security": [
-          { "BearerAuth": [] }
-        ],
+        "description": "Actualiza los datos de un síntoma.",
         "parameters": [
           {
             "in": "path",
@@ -268,10 +233,7 @@
       "delete": {
         "tags": ["Symptom"],
         "summary": "Eliminar un síntoma",
-        "description": "Elimina un síntoma por ID. Requiere autenticación.",
-        "security": [
-          { "BearerAuth": [] }
-        ],
+        "description": "Elimina un síntoma por ID.",
         "parameters": [
           {
             "in": "path",
@@ -291,10 +253,7 @@
       "get": {
         "tags": ["Patient-Symptom"],
         "summary": "Obtener síntomas relacionados con un paciente",
-        "description": "Obtiene todos los síntomas asignados a un paciente. Requiere autenticación.",
-        "security": [
-          { "BearerAuth": [] }
-        ],
+        "description": "Obtiene todos los síntomas asignados a un paciente.",
         "parameters": [
           {
             "in": "path",
@@ -320,10 +279,7 @@
       "post": {
         "tags": ["Patient-Symptom"],
         "summary": "Asignar un síntoma a un paciente",
-        "description": "Crea una relación entre un paciente y un síntoma. Requiere autenticación.",
-        "security": [
-          { "BearerAuth": [] }
-        ],
+        "description": "Crea una relación entre un paciente y un síntoma.",
         "parameters": [
           {
             "in": "path",
@@ -344,40 +300,10 @@
           "201": { "description": "Relación creada exitosamente." }
         }
       },
-      "patch":{
-        "tags": ["Patient-Symptom"],
-        "summary": "Actualizar la relación entre un paciente y un síntoma",
-        "description": "Actualiza la relación entre un paciente y un síntoma. Requiere autenticación.",
-        "security": [
-          { "BearerAuth": [] }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "patientId",
-            "required": true,
-            "type": "string",
-            "description": "ID del paciente."
-          },
-          {
-            "in": "path",
-            "name": "symptomId",
-            "required": true,
-            "type": "string",
-            "description": "ID del síntoma."
-          }
-        ],
-        "responses": {
-          "200": { "description": "Relación actualizada exitosamente." }
-        }
-      },
       "delete": {
         "tags": ["Patient-Symptom"],
         "summary": "Eliminar la relación entre un paciente y un síntoma",
-        "description": "Elimina la relación entre un paciente y un síntoma. Requiere autenticación.",
-        "security": [
-          { "BearerAuth": [] }
-        ],
+        "description": "Elimina la relación entre un paciente y un síntoma.",
         "parameters": [
           {
             "in": "path",
